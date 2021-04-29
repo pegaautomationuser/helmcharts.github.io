@@ -1,16 +1,15 @@
 pipeline {
   agent any
   stages {
-      stage("Init"){
+      stage('Init'){
         steps {
             sh "curl -fsSL -o helm-v3.2.4-linux-amd64.tar.gz https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz"
             sh "tar -zxvf helm-v3.2.4-linux-amd64.tar.gz"
             sh "mv linux-amd64/helm /usr/local/bin/helm"
-        }
-
-          
+        }    
       }
-      stage ("Checkout and Package Charts") {
+
+      stage ('Checkout and Package Charts') {
 
             // Checkout PR Code
             def scmVars = checkout scm
@@ -19,7 +18,7 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: "helmautomation",
               passwordVariable: 'AUTOMATION_APIKEY', usernameVariable: 'AUTOMATION_USERNAME')]) {
               steps {
-                            // Perform Chart packaging
+            // Perform Chart packaging
             sh "helm dependency update ./test/"
             sh "helm package --version test-1.0.0.tgz ./test/"
             sh "git clone https://pegaautomationuser:${AUTOMATION_APIKEY}@github.com/pegaautomationuser/helmcharts.git --branch=gh-pages gh-pages"
