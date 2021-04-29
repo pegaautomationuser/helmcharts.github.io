@@ -16,7 +16,7 @@ node {
               passwordVariable: 'AUTOMATION_APIKEY', usernameVariable: 'AUTOMATION_USERNAME')]) {
             // Perform Chart packaging
             sh "helm dependency update ./test/"
-            sh "helm package --version test-1.0.0.tgz ./test/"
+            sh "helm package --version test-1.0.0 ./test/"
             sh "git clone https://pegaautomationuser:${AUTOMATION_APIKEY}@github.com/pegaautomationuser/helmcharts.git --branch=gh-pages gh-pages"
             sh "mv test-1.0.0.tgz gh-pages/"
             sh "cd gh-pages"
