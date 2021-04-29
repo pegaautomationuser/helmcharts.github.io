@@ -1,9 +1,4 @@
 #!/usr/bin/env groovy
-def bintrayautomation = "bintrayautomation"
-def labels = ""
-def bintrayPackageVersion = "1.0.0" 
-def curlSuccessStatus = '{"message":"success"}'
-
 node {
       stage("Init"){
 
@@ -16,12 +11,7 @@ node {
 
             // Checkout PR Code
             def scmVars = checkout scm
-            branchName = "${scmVars.GIT_BRANCH}"
-            packageName = currentBuild.displayName
-            prNumber = "${env.BRANCH_NAME}".split("-")[1]
-            
-
-            
+                        
             // Publish helm charts to test-automation repository
             withCredentials([usernamePassword(credentialsId: "helmautomation",
               passwordVariable: 'AUTOMATION_APIKEY', usernameVariable: 'AUTOMATION_USERNAME')]) {
