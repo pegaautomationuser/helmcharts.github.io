@@ -1,7 +1,8 @@
-#!/usr/bin/env groovy
-node {
+pipeline {
+  agent any
+  stages {
       stage("Init"){
-        script {
+        steps {
             sh "curl -fsSL -o helm-v3.2.4-linux-amd64.tar.gz https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz"
             sh "tar -zxvf helm-v3.2.4-linux-amd64.tar.gz"
             sh "mv linux-amd64/helm /usr/local/bin/helm"
@@ -17,7 +18,7 @@ node {
             // Publish helm charts to test-automation repository
             withCredentials([usernamePassword(credentialsId: "helmautomation",
               passwordVariable: 'AUTOMATION_APIKEY', usernameVariable: 'AUTOMATION_USERNAME')]) {
-              script {
+              steps {
                             // Perform Chart packaging
             sh "helm dependency update ./test/"
             sh "helm package --version test-1.0.0.tgz ./test/"
@@ -34,3 +35,4 @@ node {
             } 
       }
   }
+}
