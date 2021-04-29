@@ -9,7 +9,7 @@ pipeline {
         }    
       }
 
-      stage ('Checkout and Package Charts') {
+      stage('Checkout and Package Charts'){
 
             // Checkout PR Code
             def scmVars = checkout scm
