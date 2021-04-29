@@ -3,7 +3,7 @@ pipeline {
   stages {
       stage('Init'){
         steps {
-            sh 'ls'
+            bat 'ls'
             sh 'curl -fsSL -o helm-v3.2.4-linux-amd64.tar.gz https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz'
             sh 'tar -zxvf helm-v3.2.4-linux-amd64.tar.gz'
             sh 'mv linux-amd64/helm /usr/local/bin/helm'
