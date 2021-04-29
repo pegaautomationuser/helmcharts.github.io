@@ -3,9 +3,9 @@ pipeline {
   stages {
       stage('Init'){
         steps {
-            sh "curl -fsSL -o helm-v3.2.4-linux-amd64.tar.gz https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz"
-            sh "tar -zxvf helm-v3.2.4-linux-amd64.tar.gz"
-            sh "mv linux-amd64/helm /usr/local/bin/helm"
+            sh 'curl -fsSL -o helm-v3.2.4-linux-amd64.tar.gz https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz'
+            sh 'tar -zxvf helm-v3.2.4-linux-amd64.tar.gz'
+            sh 'mv linux-amd64/helm /usr/local/bin/helm'
         }    
       }
 
@@ -15,20 +15,20 @@ pipeline {
             checkout scm
                         
             // Publish helm charts to test-automation repository
-            withCredentials([usernamePassword(credentialsId: "helmautomation",
+            withCredentials([usernamePassword(credentialsId: 'helmautomation',
               passwordVariable: 'AUTOMATION_APIKEY', usernameVariable: 'AUTOMATION_USERNAME')]) {
            
             // Perform Chart packaging
-            sh "helm dependency update ./test/"
-            sh "helm package --version test-1.0.0.tgz ./test/"
-            sh "git clone https://pegaautomationuser:${AUTOMATION_APIKEY}@github.com/pegaautomationuser/helmcharts.git --branch=gh-pages gh-pages"
-            sh "mv test-1.0.0.tgz gh-pages/"
-            sh "cd gh-pages"
-            sh "helm repo index --merge index.yaml --url https://pegaautomationuser.github.io/helmcharts/ ."
-            sh "cat index.yaml"
-            sh "git add ."
-            sh "git commit -m \"Jenkins build to publish test artefacts\""
-            sh "git push origin gh-pages"
+            sh 'helm dependency update ./test/'
+            sh 'helm package --version test-1.0.0.tgz ./test/'
+            sh 'git clone https://pegaautomationuser:${AUTOMATION_APIKEY}@github.com/pegaautomationuser/helmcharts.git --branch=gh-pages gh-pages'
+            sh 'mv test-1.0.0.tgz gh-pages/'
+            sh 'cd gh-pages'
+            sh 'helm repo index --merge index.yaml --url https://pegaautomationuser.github.io/helmcharts/ .'
+            sh 'cat index.yaml'
+            sh 'git add .'
+            sh 'git commit -m \"Jenkins build to publish test artefacts\"'
+            sh 'git push origin gh-pages'
               }
 
             } 
