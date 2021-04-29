@@ -10,14 +10,14 @@ pipeline {
       }
 
       stage('Checkout and Package Charts'){
-
+          steps {
             // Checkout PR Code
-            def scmVars = checkout scm
+            checkout scm
                         
             // Publish helm charts to test-automation repository
             withCredentials([usernamePassword(credentialsId: "helmautomation",
               passwordVariable: 'AUTOMATION_APIKEY', usernameVariable: 'AUTOMATION_USERNAME')]) {
-              steps {
+           
             // Perform Chart packaging
             sh "helm dependency update ./test/"
             sh "helm package --version test-1.0.0.tgz ./test/"
