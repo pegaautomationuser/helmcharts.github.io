@@ -24,6 +24,7 @@ node {
             sh "cat index.yaml"
             sh "git config user.email pegaautomationuser@gmail.com"
             sh "git config user.name ${AUTOMATION_USERNAME}"
+            sh "git status"
             sh "git add ."
             sh "git commit -m \"Jenkins build to publish test artefacts\""
             sh "git push origin gh-pages"
