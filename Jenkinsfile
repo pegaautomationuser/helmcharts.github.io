@@ -22,6 +22,7 @@ node {
             sh "cd gh-pages"
             sh "helm repo index --merge index.yaml --url https://pegaautomationuser.github.io/helmcharts/ ."
             sh "cat index.yaml"
+            sh "git remote set-url origin https://pegaautomationuser:${AUTOMATION_APIKEY}@github.com/pegaautomationuser/helmcharts.git"
             sh "git config user.email pegaautomationuser@gmail.com"
             sh "git config user.name ${AUTOMATION_USERNAME}"
             sh "git status"
